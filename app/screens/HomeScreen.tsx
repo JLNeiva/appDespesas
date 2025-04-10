@@ -54,10 +54,13 @@ export default function HomeScreen() {
                 <Text style={styles.checkbox}>{selecionados.includes(item.id) ? '☑️' : '⬜'}</Text>
             </TouchableOpacity>
             <View style={{ flex: 1 }}>
+                <TouchableOpacity onPress={() => toggleSelecionado(item.id)}>
+                    <Text style={styles.status}>{item.status.toUpperCase()}</Text>
+                </TouchableOpacity>
                 <Text style={styles.text}>📅 {item.data}</Text>
                 <Text style={styles.text}>💰 {item.valor.toFixed(2)}</Text>
                 <Text style={styles.text}>🏷️ {item.descricao}</Text>
-                <Text style={styles.status}>{item.status.toUpperCase()}</Text>
+
             </View>
             <View style={{ gap: 4 }}>
                 <TouchableOpacity onPress={() => {
@@ -109,15 +112,15 @@ export default function HomeScreen() {
                     onSave={(registro) => {
                         if (registroEditando) {
                             // Editing existing record
-                            setRegistros(prev => prev.map(r => 
+                            setRegistros(prev => prev.map(r =>
                                 r.id === registroEditando.id ? registro : r
                             ));
                         } else {
                             // Creating new record
-                            setRegistros(prev => [...prev, { 
-                                ...registro, 
-                                id: Date.now().toString(), 
-                                status: 'aberto' 
+                            setRegistros(prev => [...prev, {
+                                ...registro,
+                                id: Date.now().toString(),
+                                status: 'aberto'
                             }]);
                         }
                         setModoNovo(false);
@@ -152,7 +155,7 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#000' },
-    lista: { padding: 16, paddingBottom: 100 },
+    lista: { padding: 16, paddingBottom: 100, paddingTop: 8 },
     card: {
         flexDirection: 'row',
         alignItems: 'flex-start',
@@ -162,10 +165,10 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         gap: 10,
     },
-    checkbox: { fontSize: 20 },
+    checkbox: { fontSize: 15 },
     text: { color: '#fff', fontSize: 14 },
-    status: { color: '#ccc', fontSize: 12, marginTop: 4 },
-    acaoIcone: { fontSize: 18, color: '#fff' },
+    status: { color: '#0f0', fontSize: 12, marginTop: 4, marginBottom: 4 },
+    acaoIcone: { fontSize: 18, color: '#fff', marginBottom: 6, marginTop: 6 },
     filtros: {
         flexDirection: 'row',
         justifyContent: 'center',
