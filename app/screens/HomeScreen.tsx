@@ -76,6 +76,21 @@ export default function HomeScreen() {
         </View>
     );
 
+    const handleStatusChange = (newStatus: 'aberto' | 'enviado' | 'fechado') => {
+        if (selecionados.length === 0) {
+            Alert.alert('Atenção', 'Selecione pelo menos um registro');
+            return;
+        }
+    
+        setRegistros(prev => prev.map(registro => 
+            selecionados.includes(registro.id) 
+                ? { ...registro, status: newStatus }
+                : registro
+        ));
+        
+        setSelecionados([]); // Clear selections after changing status
+    };
+
     return (
         <View style={styles.container}>
             <Header userName="Jonas" />
@@ -130,22 +145,37 @@ export default function HomeScreen() {
             )}
 
             <View style={styles.acoes}>
-                <TouchableOpacity style={styles.acaoBotao} onPress={() => Alert.alert('Enviar')}>
+                <TouchableOpacity 
+                    style={styles.acaoBotao} 
+                    onPress={() => handleStatusChange('enviado')}
+                >
                     <Text style={styles.botaoTexto}>📤{"\n"}Enviar</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.acaoBotao} onPress={() => Alert.alert('Fechar')}>
+                <TouchableOpacity 
+                    style={styles.acaoBotao} 
+                    onPress={() => handleStatusChange('fechado')}
+                >
                     <Text style={styles.botaoTexto}>✅{"\n"}Fechar</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.acaoBotao} onPress={() => Alert.alert('Reabrir')}>
+                <TouchableOpacity 
+                    style={styles.acaoBotao} 
+                    onPress={() => handleStatusChange('aberto')}
+                >
                     <Text style={styles.botaoTexto}>🔄{"\n"}Reabrir</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.acaoBotao} onPress={() => Alert.alert('Relatório')}>
+                <TouchableOpacity 
+                    style={styles.acaoBotao} 
+                    onPress={() => Alert.alert('Relatório')}
+                >
                     <Text style={styles.botaoTexto}>📄{"\n"}Relatório</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.acaoBotao} onPress={() => {
-                    setModoNovo(true);
-                    setRegistroEditando(null);
-                }}>
+                <TouchableOpacity 
+                    style={styles.acaoBotao} 
+                    onPress={() => {
+                        setModoNovo(true);
+                        setRegistroEditando(null);
+                    }}
+                >
                     <Text style={styles.botaoTexto}>➕{"\n"}Novo</Text>
                 </TouchableOpacity>
             </View>
